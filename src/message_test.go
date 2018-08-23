@@ -50,3 +50,44 @@ func Test_NewMessage(t *testing.T) {
 		})
 	}
 }
+
+func Test_NewMessageWithHeaders(t *testing.T) {
+	type args struct {
+		payload []byte
+		headers map[string]string
+	}
+
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+		expect  *Message
+	}{
+		{
+			name:    "creates valid message",
+			args:    args{[]byte("hello, world"), map[string]string{"abc": "def", "ghi": "jkl"}},
+			wantErr: false,
+			expect:  &Message{map[string]string{"abc": "def", "ghi": "jkl"}, []byte("hello, world")},
+		},
+	}
+
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			msg, err := NewMessageWithHeaders(test.args.payload, test.args.headers)
+
+			if test.wantErr != (err != nil) {
+				if err != nil {
+					t.Error(err)
+				} else {
+					t.Error("expected an error")
+				}
+
+				return
+			}
+
+			if !reflect.DeepEqual(msg, test.expect) {
+				t.Errorf("expected %v to be %v", msg, test.expect)
+			}
+		})
+	}
+}

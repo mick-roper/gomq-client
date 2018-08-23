@@ -69,6 +69,12 @@ func Test_NewMessageWithHeaders(t *testing.T) {
 			wantErr: false,
 			expect:  &Message{map[string]string{"abc": "def", "ghi": "jkl"}, []byte("hello, world")},
 		},
+		{
+			name:    "returns error if no payload data",
+			args:    args{[]byte(""), map[string]string{"abc": "def", "ghi": "jkl"}},
+			wantErr: true,
+			expect:  nil,
+		},
 	}
 
 	for _, test := range tests {

@@ -16,5 +16,11 @@ func NewMessage(payload []byte) (*Message, error) {
 
 // NewMessageWithHeaders creates a new message with custom headers
 func NewMessageWithHeaders(payload []byte, headers map[string]string) (*Message, error) {
-	return nil, errors.New("not implemented")
+	if len(payload) == 0 {
+		return nil, errors.New("no payload")
+	}
+
+	// TODO: set default headers
+
+	return &Message{headers, payload}, nil
 }

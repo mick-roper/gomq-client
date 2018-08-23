@@ -22,6 +22,12 @@ func Test_NewMessage(t *testing.T) {
 			wantErr: false,
 			expect:  &Message{make(map[string]string, 0), []byte("hello, world")},
 		},
+		{
+			name:    "returns err if no payload data",
+			args:    args{[]byte("")},
+			wantErr: true,
+			expect:  nil,
+		},
 	}
 
 	for _, test := range tests {
